@@ -1,0 +1,102 @@
+[31-Aug-2026 06:14:27 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:14:33 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:15:57 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:15:59 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:16:00 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:16:02 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:16:03 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:16:04 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:16:04 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:16:04 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:16:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[31-Aug-2026 06:23:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:27 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:29 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:32 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 08:56:32 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function opcache_reset() in /home/salehsin/price-service/public/clear-opcache.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/salehsin/price-service/public/clear-opcache.php on line 1
+[02-Sep-2026 14:45:33 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:45:37 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:45:38 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:45:38 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:45:40 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:45:41 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:45:41 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:45:45 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:45:49 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
+[02-Sep-2026 14:46:22 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\Admin\CustomerChartController, because the name is already in use in /home/salehsin/price-service/app/Http/Controllers/Admin/CustomerController.php on line 13
