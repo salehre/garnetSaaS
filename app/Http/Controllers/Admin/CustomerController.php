@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Customer;
+use App\Models\ExternalService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -21,8 +22,9 @@ class CustomerController extends Controller
     public function create(): View
     {
         $currencies = Currency::where('is_active', true)->orderBy('label')->get();
+        $externalServices = ExternalService::where('is_active', true)->orderBy('label')->get();
 
-        return view('admin.customers.create', compact('currencies'));
+        return view('admin.customers.create', compact('currencies', 'externalServices'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -34,6 +36,8 @@ class CustomerController extends Controller
             'allowed_domain' => ['nullable', 'string', 'max:255'],
             'currency_ids' => ['nullable', 'array'],
             'currency_ids.*' => ['exists:currencies,id'],
+            'external_service_ids' => ['nullable', 'array'],
+            'external_service_ids.*' => ['exists:external_services,id'],
         ]);
 
         $customer = Customer::create([
@@ -44,6 +48,7 @@ class CustomerController extends Controller
         ]);
 
         $customer->currencies()->sync($validated['currency_ids'] ?? []);
+        $customer->externalServices()->sync($validated['external_service_ids'] ?? []);
 
         return redirect()
             ->route('admin.customers.index')
@@ -55,7 +60,19 @@ class CustomerController extends Controller
         $currencies = Currency::where('is_active', true)->orderBy('label')->get();
         $selectedCurrencyIds = $customer->currencies()->pluck('currencies.id')->toArray();
 
-        return view('admin.customers.edit', compact('customer', 'currencies', 'selectedCurrencyIds'));
+        $externalServices = ExternalService::where('is_active', true)->orderBy('label')->get();
+        $selectedServiceIds = $customer->externalServices()->pluck('external_services.id')->toArray();
+
+        $recentTransactions = $customer->walletTransactions()->latest()->limit(10)->get();
+
+        return view('admin.customers.edit', compact(
+            'customer',
+            'currencies',
+            'selectedCurrencyIds',
+            'externalServices',
+            'selectedServiceIds',
+            'recentTransactions'
+        ));
     }
 
     public function update(Request $request, Customer $customer): RedirectResponse
@@ -67,6 +84,8 @@ class CustomerController extends Controller
             'allowed_domain' => ['nullable', 'string', 'max:255'],
             'currency_ids' => ['nullable', 'array'],
             'currency_ids.*' => ['exists:currencies,id'],
+            'external_service_ids' => ['nullable', 'array'],
+            'external_service_ids.*' => ['exists:external_services,id'],
         ]);
 
         $customer->update([
@@ -77,6 +96,7 @@ class CustomerController extends Controller
         ]);
 
         $customer->currencies()->sync($validated['currency_ids'] ?? []);
+        $customer->externalServices()->sync($validated['external_service_ids'] ?? []);
 
         return redirect()
             ->route('admin.customers.index')
@@ -108,5 +128,25 @@ class CustomerController extends Controller
         return redirect()
             ->route('admin.customers.edit', $customer)
             ->with('status', 'API key جدید صادر شد.');
+    }
+
+    /**
+     * Manually add credit to this customer's wallet (e.g. after an offline payment).
+     */
+    public function creditBalance(Request $request, Customer $customer): RedirectResponse
+    {
+        $validated = $request->validate([
+            'amount' => ['required', 'numeric', 'min:0.01'],
+            'description' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $customer->creditBalance(
+            (float) $validated['amount'],
+            $validated['description'] ?: 'شارژ دستی توسط ادمین'
+        );
+
+        return redirect()
+            ->route('admin.customers.edit', $customer)
+            ->with('status', 'موجودی با موفقیت شارژ شد.');
     }
 }

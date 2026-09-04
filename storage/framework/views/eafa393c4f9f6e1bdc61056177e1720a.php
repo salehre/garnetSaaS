@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'پنل مدیریت قیمت‌ها')</title>
+    <title><?php echo $__env->yieldContent('title', 'پنل مدیریت قیمت‌ها'); ?></title>
     <style>
         body { font-family: Tahoma, sans-serif; background: #f4f5f7; margin: 0; padding: 0; }
         nav { background: #1f2937; padding: 14px 24px; display: flex; gap: 20px; }
@@ -32,21 +32,21 @@
 <body>
     <nav style="justify-content: space-between; align-items: center;">
         <div style="display: flex; gap: 20px;">
-            <a href="{{ route('admin.dashboard') }}">داشبورد</a>
-            <a href="{{ route('admin.customers.index') }}">مشتریان</a>
-            <a href="{{ route('admin.currencies.index') }}">ارزها</a>
-            <a href="{{ route('admin.external-services.index') }}">سرویس‌های بیرونی</a>
+            <a href="<?php echo e(route('admin.dashboard')); ?>">داشبورد</a>
+            <a href="<?php echo e(route('admin.customers.index')); ?>">مشتریان</a>
+            <a href="<?php echo e(route('admin.currencies.index')); ?>">ارزها</a>
+            <a href="<?php echo e(route('admin.external-services.index')); ?>">سرویس‌های بیرونی</a>
         </div>
-        <form method="POST" action="{{ route('admin.logout') }}">
-            @csrf
+        <form method="POST" action="<?php echo e(route('admin.logout')); ?>">
+            <?php echo csrf_field(); ?>
             <button type="submit" style="background:none; border:none; color:#e5e7eb; cursor:pointer; font-size:14px;">خروج</button>
         </form>
     </nav>
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">{{ session('status') }}</div>
-        @endif
-        @yield('content')
+        <?php if(session('status')): ?>
+            <div class="alert alert-success"><?php echo e(session('status')); ?></div>
+        <?php endif; ?>
+        <?php echo $__env->yieldContent('content'); ?>
     </div>
 </body>
-</html>
+</html><?php /**PATH D:\projects\garnetSaaS\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>

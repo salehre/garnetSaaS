@@ -1,10 +1,10 @@
 @csrf
 
-<label for="name">نام مشتری:</label>
+<label for="name">نام مشتری</label>
 <input type="text" id="name" name="name" value="{{ old('name', $customer->name ?? '') }}" required>
 @error('name') <div style="color:#dc2626; font-size:12px;">{{ $message }}</div> @enderror
 
-<label for="price_unit">واحد قیمت:</label>
+<label for="price_unit">واحد قیمت</label>
 <select id="price_unit" name="price_unit">
     <option value="toman" {{ old('price_unit', $customer->price_unit ?? 'toman') === 'toman' ? 'selected' : '' }}>تومن</option>
     <option value="rial" {{ old('price_unit', $customer->price_unit ?? '') === 'rial' ? 'selected' : '' }}>ریال</option>
@@ -16,12 +16,12 @@
     فعال
 </label>
 
-<label for="allowed_domain">دامنه‌ی مجاز (اختیاری):</label>
+<label for="allowed_domain">دامنه‌ی مجاز (اختیاری)</label>
 <input type="text" id="allowed_domain" name="allowed_domain"
        value="{{ old('allowed_domain', $customer->allowed_domain ?? '') }}"
-       placeholder="example.com" dir="ltr" style="text-align: left;">
+       placeholder="example.com">
 <div style="font-size:12px; color:#6b7280; margin-top:2px;">
-    اگه پر بشه،  فقط درخواست‌هایی که Origin/Referer‌ شون این دامنه باشه قبول می‌شن (خالی = بدون محدودیت دامنه).
+    اگه پر بشه، فقط درخواست‌هایی که Origin/Referer‌شون این دامنه باشه قبول می‌شن. خالی = بدون محدودیت دامنه.
 </div>
 @error('allowed_domain') <div style="color:#dc2626; font-size:12px;">{{ $message }}</div> @enderror
 
@@ -34,6 +34,19 @@
             {{ $currency->label }}
         </label>
     @endforeach
+</div>
+
+<label style="margin-top:16px; display:block;">سرویس‌های بیرونی مجاز برای این مشتری</label>
+<div class="checkbox-grid">
+    @forelse ($externalServices as $service)
+        <label>
+            <input type="checkbox" name="external_service_ids[]" value="{{ $service->id }}"
+                   {{ in_array($service->id, old('external_service_ids', $selectedServiceIds ?? [])) ? 'checked' : '' }}>
+            {{ $service->label }} ({{ number_format($service->price) }} تومن)
+        </label>
+    @empty
+        <span style="color:#6b7280; font-size:13px;">هنوز هیچ سرویسی تعریف نشده.</span>
+    @endforelse
 </div>
 
 <div style="margin-top:20px;">

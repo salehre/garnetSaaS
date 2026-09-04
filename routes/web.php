@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\CustomerChartController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExternalServiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,11 +29,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('customers', CustomerController::class)->except(['show']);
         Route::post('customers/{customer}/regenerate-key', [CustomerController::class, 'regenerateApiKey'])
             ->name('customers.regenerate-key');
+        Route::post('customers/{customer}/credit', [CustomerController::class, 'creditBalance'])
+            ->name('customers.credit');
         Route::get('customers/{customer}/chart', [CustomerChartController::class, 'show'])
             ->name('customers.chart');
         Route::get('customers/{customer}/chart-data', [CustomerChartController::class, 'data'])
             ->name('customers.chart-data');
 
         Route::resource('currencies', CurrencyController::class)->only(['index', 'edit', 'update']);
+        Route::resource('external-services', ExternalServiceController::class)
+            ->except(['show']);
     });
 });
