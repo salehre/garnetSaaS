@@ -26,9 +26,14 @@
             همین را در اختیار مشتری بگذار تا با هدر <code>X-API-KEY</code> در درخواست‌هایش استفاده کند.
         </p>
 
-        <input type="text" readonly value="{{ $customer->api_key }}"
-               style="width:100%; font-family: monospace; background:#f3f4f6; padding:8px; border-radius:6px; border:1px solid #d1d5db;"
-               onclick="this.select();">
+        <div style="display:flex; gap:8px; align-items:stretch;">
+            <input type="text" id="api-key-input" readonly value="{{ $customer->api_key }}"
+                   style="flex:1; font-family: monospace; background:#f3f4f6; padding:8px; border-radius:6px; border:1px solid #d1d5db;"
+                   onclick="this.select();">
+            <button type="button" id="copy-api-key-btn" class="btn btn-secondary" onclick="copyApiKey()" title="کپی">
+                📋
+            </button>
+        </div>
 
         <p style="font-size: 13px; color: #6b7280; margin-top: 12px;">
             دامنه‌ی مجاز فعلی:
@@ -99,4 +104,22 @@
             <p style="font-size:13px; color:#6b7280; margin-top:16px;">هنوز هیچ تراکنشی ثبت نشده.</p>
         @endif
     </div>
+
+    <script>
+        function copyApiKey() {
+            const input = document.getElementById('api-key-input');
+            const btn = document.getElementById('copy-api-key-btn');
+            const original = btn.innerHTML;
+
+            navigator.clipboard.writeText(input.value).then(() => {
+                btn.innerHTML = '✅';
+                setTimeout(() => { btn.innerHTML = original; }, 1500);
+            }).catch(() => {
+                input.select();
+                document.execCommand('copy');
+                btn.innerHTML = '✅';
+                setTimeout(() => { btn.innerHTML = original; }, 1500);
+            });
+        }
+    </script>
 @endsection
