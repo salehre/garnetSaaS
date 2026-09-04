@@ -5,8 +5,8 @@
 @section('content')
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <h2 style="margin:0;">سرویس‌های بیرونی (api.ir)</h2>
-            <a href="{{ route('admin.external-services.create') }}" class="btn btn-primary">+ سرویس جدید</a>
+            <h2 style="margin:0;">سرویس‌های بیرونی - API.ir</h2>
+            <a href="{{ route('admin.external-services.create') }}" class="btn btn-primary">سرویس جدید</a>
         </div>
 
         @if (session('status'))
@@ -30,11 +30,9 @@
                         <td style="padding:8px; font-family:monospace; color:#6b7280;">{{ $service->slug }}</td>
                         <td style="padding:8px;">{{ number_format($service->price) }}</td>
                         <td style="padding:8px;">
-                            @if ($service->is_active)
-                                <span style="color:#16a34a;">فعال</span>
-                            @else
-                                <span style="color:#dc2626;">غیرفعال</span>
-                            @endif
+                            <span class="badge {{ $service->is_active ? 'badge-active' : 'badge-inactive' }}">
+                                {{ $service->is_active ? 'فعال' : 'غیرفعال' }}
+                            </span>
                         </td>
                         <td style="padding:8px; text-align:left;">
                             <a href="{{ route('admin.external-services.edit', $service) }}" class="btn btn-secondary">ویرایش</a>

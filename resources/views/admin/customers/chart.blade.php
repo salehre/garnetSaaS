@@ -5,7 +5,7 @@
 @section('content')
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h3 style="margin-top:0;">نمودار قیمت‌های {{ $customer->name }}
+            <h3 style="margin-top:0;">نمودار ارز‌های {{ $customer->name }}
             </h3>
             <a href="{{ route('admin.customers.edit', $customer) }}" class="btn btn-secondary">بازگشت</a>
         </div>

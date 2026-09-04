@@ -5,8 +5,8 @@
 <?php $__env->startSection('content'); ?>
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <h2 style="margin:0;">سرویس‌های بیرونی (api.ir)</h2>
-            <a href="<?php echo e(route('admin.external-services.create')); ?>" class="btn btn-primary">+ سرویس جدید</a>
+            <h2 style="margin:0;">سرویس‌های بیرونی - API.ir</h2>
+            <a href="<?php echo e(route('admin.external-services.create')); ?>" class="btn btn-primary">سرویس جدید</a>
         </div>
 
         <?php if(session('status')): ?>
@@ -30,11 +30,15 @@
                         <td style="padding:8px; font-family:monospace; color:#6b7280;"><?php echo e($service->slug); ?></td>
                         <td style="padding:8px;"><?php echo e(number_format($service->price)); ?></td>
                         <td style="padding:8px;">
-                            <?php if($service->is_active): ?>
+                            <!-- <?php if($service->is_active): ?>
                                 <span style="color:#16a34a;">فعال</span>
                             <?php else: ?>
                                 <span style="color:#dc2626;">غیرفعال</span>
-                            <?php endif; ?>
+                            <?php endif; ?> -->
+                            <span class="badge <?php echo e($service->is_active ? 'badge-active' : 'badge-inactive'); ?>">
+                                <?php echo e($service->is_active ? 'فعال' : 'غیرفعال'); ?>
+
+</span>
                         </td>
                         <td style="padding:8px; text-align:left;">
                             <a href="<?php echo e(route('admin.external-services.edit', $service)); ?>" class="btn btn-secondary">ویرایش</a>

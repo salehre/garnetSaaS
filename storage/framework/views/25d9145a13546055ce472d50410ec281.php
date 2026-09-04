@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="margin-top:0;">ویرایش مشتری: <?php echo e($customer->name); ?></h2>
+            <h3 style="margin-top:0;">ویرایش مشتری</h3>
             <a href="<?php echo e(route('admin.customers.chart', $customer)); ?>" class="btn btn-secondary">مشاهده نمودار</a>
         </div>
         <form action="<?php echo e(route('admin.customers.update', $customer)); ?>" method="POST">
@@ -43,7 +43,7 @@
              width="18"
              height="18"
              viewBox="0 0 24 24"
-            style="margin-top: 5px;"
+             style="margin-top: 5px;"
              fill="none"
              stroke="currentColor"
              stroke-width="2"

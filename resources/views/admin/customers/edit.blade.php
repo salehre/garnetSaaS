@@ -5,7 +5,7 @@
 @section('content')
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="margin-top:0;">ویرایش مشتری: {{ $customer->name }}</h2>
+            <h3 style="margin-top:0;">ویرایش مشتری</h3>
             <a href="{{ route('admin.customers.chart', $customer) }}" class="btn btn-secondary">مشاهده نمودار</a>
         </div>
         <form action="{{ route('admin.customers.update', $customer) }}" method="POST">

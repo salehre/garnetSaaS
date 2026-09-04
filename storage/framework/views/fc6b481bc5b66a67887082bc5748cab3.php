@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h3 style="margin-top:0;">نمودار قیمت‌های <?php echo e($customer->name); ?>
+            <h3 style="margin-top:0;">نمودار ارز‌های <?php echo e($customer->name); ?>
 
             </h3>
             <a href="<?php echo e(route('admin.customers.edit', $customer)); ?>" class="btn btn-secondary">بازگشت</a>

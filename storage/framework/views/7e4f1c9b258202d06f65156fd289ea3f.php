@@ -1,6 +1,6 @@
 <?php echo csrf_field(); ?>
 
-<label for="name">نام مشتری</label>
+<label for="name">نام مشتری :</label>
 <input type="text" id="name" name="name" value="<?php echo e(old('name', $customer->name ?? '')); ?>" required>
 <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -11,7 +11,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
 
-<label for="price_unit">واحد قیمت</label>
+<label for="price_unit">واحد قیمت :</label>
 <select id="price_unit" name="price_unit">
     <option value="toman" <?php echo e(old('price_unit', $customer->price_unit ?? 'toman') === 'toman' ? 'selected' : ''); ?>>تومن</option>
     <option value="rial" <?php echo e(old('price_unit', $customer->price_unit ?? '') === 'rial' ? 'selected' : ''); ?>>ریال</option>
@@ -23,12 +23,12 @@ unset($__errorArgs, $__bag); ?>
     فعال
 </label>
 
-<label for="allowed_domain">دامنه‌ی مجاز (اختیاری)</label>
+<label for="allowed_domain">دامنه‌ی مجاز :</label>
 <input type="text" id="allowed_domain" name="allowed_domain"
        value="<?php echo e(old('allowed_domain', $customer->allowed_domain ?? '')); ?>"
-       placeholder="example.com">
+       placeholder="example.com" dir="ltr">
 <div style="font-size:12px; color:#6b7280; margin-top:2px;">
-    اگه پر بشه، فقط درخواست‌هایی که Origin/Referer‌شون این دامنه باشه قبول می‌شن. خالی = بدون محدودیت دامنه.
+  اگه پر بشه، فقط درخواست‌هایی که Origin/Referer‌ شون این دامنه باشه قبول می‌شن (خالی = بدون محدودیت دامنه).
 </div>
 <?php $__errorArgs = ['allowed_domain'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -39,7 +39,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
 
-<label>ارزهای مجاز برای این مشتری</label>
+<label style="font-size: 15px;">ارزهای مجاز برای این مشتری</label>
 <div class="checkbox-grid">
     <?php $__currentLoopData = $currencies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $currency): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <label>
@@ -51,7 +51,7 @@ unset($__errorArgs, $__bag); ?>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
 
-<label style="margin-top:16px; display:block;">سرویس‌های بیرونی مجاز برای این مشتری</label>
+<label style="margin-top:40px; font-size: 15px; display:block;">سرویس‌های بیرونی مجاز برای این مشتری</label>
 <div class="checkbox-grid">
     <?php $__empty_1 = true; $__currentLoopData = $externalServices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <label>
