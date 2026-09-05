@@ -27,6 +27,16 @@ class ExternalServiceRegistry
         'iban-info' => 'استعلام نام دارنده شبا',
     ];
 
+    /**
+     * slug => the exact "نام سرویس" text from the api.ir price sheet, so the
+     * Excel importer can auto-assign the right slug to a freshly-imported row.
+     */
+    private const MATCH_KEYS = [
+        'shahkar-lite' => 'احراز هویت شاهکار Lite',
+        'iban-match' => 'تطبیق کد ملی با شبا',
+        'iban-info' => 'استعلام نام دارنده شبا',
+    ];
+
     public static function has(string $slug): bool
     {
         return array_key_exists($slug, self::MAP);
@@ -42,6 +52,17 @@ class ExternalServiceRegistry
     public static function labelFor(string $slug): string
     {
         return self::LABELS[$slug] ?? $slug;
+    }
+
+    /**
+     * Given the exact "نام سرویس" text from the Excel sheet, return the slug
+     * we've already written a handler for — or null if it's not one of ours yet.
+     */
+    public static function slugForMatchKey(string $matchKey): ?string
+    {
+        $slug = array_search($matchKey, self::MATCH_KEYS, true);
+
+        return $slug !== false ? $slug : null;
     }
 
     /**
