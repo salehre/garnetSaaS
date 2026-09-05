@@ -9,10 +9,6 @@
             <a href="<?php echo e(route('admin.external-services.create')); ?>" class="btn btn-primary">سرویس جدید</a>
         </div>
 
-        <?php if(session('status')): ?>
-            <div class="alert alert-success"><?php echo e(session('status')); ?></div>
-        <?php endif; ?>
-
         <table style="width:100%; border-collapse: collapse;">
             <thead>
                 <tr style="text-align:right; border-bottom:1px solid #e5e7eb;">
