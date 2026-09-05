@@ -51,6 +51,10 @@ unset($__errorArgs, $__bag); ?>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
 
+<div style="margin:40px 0 10px; display:flex; align-items:center; gap:12px;">
+    <div style="flex:1; height:1px; background:#e5e7eb;"></div>
+</div>
+
 <label style="margin-top:40px; font-size: 15px; display:block;">سرویس‌های بیرونی مجاز برای این مشتری</label>
 <div class="checkbox-grid">
     <?php $__empty_1 = true; $__currentLoopData = $externalServices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>

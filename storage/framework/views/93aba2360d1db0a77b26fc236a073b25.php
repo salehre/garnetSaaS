@@ -30,15 +30,10 @@
                         <td style="padding:8px; font-family:monospace; color:#6b7280;"><?php echo e($service->slug); ?></td>
                         <td style="padding:8px;"><?php echo e(number_format($service->price)); ?></td>
                         <td style="padding:8px;">
-                            <!-- <?php if($service->is_active): ?>
-                                <span style="color:#16a34a;">فعال</span>
-                            <?php else: ?>
-                                <span style="color:#dc2626;">غیرفعال</span>
-                            <?php endif; ?> -->
                             <span class="badge <?php echo e($service->is_active ? 'badge-active' : 'badge-inactive'); ?>">
                                 <?php echo e($service->is_active ? 'فعال' : 'غیرفعال'); ?>
 
-</span>
+                            </span>
                         </td>
                         <td style="padding:8px; text-align:left;">
                             <a href="<?php echo e(route('admin.external-services.edit', $service)); ?>" class="btn btn-secondary">ویرایش</a>

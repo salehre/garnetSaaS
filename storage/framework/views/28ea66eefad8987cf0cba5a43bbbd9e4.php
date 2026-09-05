@@ -16,11 +16,16 @@
             <div style="font-size: 13px; color: #6b7280;">ارزهای فعال</div>
             <div style="font-size: 28px; font-weight: 700; margin-top: 6px;"><?php echo e($activeCurrenciesCount); ?></div>
         </div>
+        <div class="card">
+            <div style="font-size: 13px; color: #6b7280;">سرویس‌های فعال</div>
+            <div style="font-size: 28px; font-weight: 700; margin-top: 6px;"><?php echo e($activeServicesCount); ?></div>
+        </div>
     </div>
 
     <div class="card" style="margin-top: 20px;">
         <a href="<?php echo e(route('admin.customers.index')); ?>" class="btn btn-primary">مدیریت مشتریان</a>
         <a href="<?php echo e(route('admin.currencies.index')); ?>" class="btn btn-secondary" style="margin-inline-start: 8px;">مدیریت ارزها</a>
+        <a href="<?php echo e(route('admin.external-services.index')); ?>" class="btn btn-secondary" style="margin-inline-start: 8px;">مدیریت سرویس‌ها</a>
     </div>
 <?php $__env->stopSection(); ?>
 

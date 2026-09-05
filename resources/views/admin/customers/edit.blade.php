@@ -75,8 +75,11 @@
     <div class="card">
         <h3 style="margin-top:0;">کیف‌پول</h3>
 
-        <div style="font-size:28px; font-weight:700; margin-bottom:12px;">
-            {{ number_format($customer->balance) }} <span style="font-size:14px; color:#6b7280;">تومن</span>
+        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:16px; margin-bottom:12px;">
+            <div style="font-size:13px; color:#1e40af;">موجودی فعلی</div>
+            <div style="font-size:32px; font-weight:700; color:#1e3a8a; margin-top:4px;">
+                {{ number_format($customer->balance) }} <span style="font-size:14px; font-weight:400;">تومن</span>
+            </div>
         </div>
 
         <form action="{{ route('admin.customers.credit', $customer) }}" method="POST"
@@ -90,7 +93,7 @@
                 <label for="description" style="display:block; font-size:13px; margin-bottom:4px;">توضیح (اختیاری)</label>
                 <input type="text" id="description" name="description" placeholder="مثلاً: واریز نقدی">
             </div>
-            <button type="submit" class="btn btn-primary">شارژ موجودی</button>
+            <button type="submit" style="padding: 8px 14px;" class="btn btn-primary">شارژ موجودی</button>
         </form>
         @error('amount') <div style="color:#dc2626; font-size:12px; margin-top:6px;">{{ $message }}</div> @enderror
 
@@ -108,7 +111,7 @@
                 <tbody>
                     @foreach ($recentTransactions as $tx)
                         <tr style="border-bottom:1px solid #f3f4f6; font-size:13px;">
-                            <td style="padding:6px;">{{ $tx->created_at->format('Y-m-d H:i') }}</td>
+                            <td style="padding:6px;">{{ verta($tx->created_at)->format('Y/m/d - H:i') }}</td>
                             <td style="padding:6px;">
                                 @if ($tx->type === 'credit')
                                     <span style="color:#16a34a;">شارژ</span>

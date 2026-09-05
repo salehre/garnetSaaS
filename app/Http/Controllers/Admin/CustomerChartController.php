@@ -37,7 +37,7 @@ class CustomerChartController extends Controller
             'period' => ['required', 'in:24h,week,month,3month,6month'],
         ]);
 
-        // Only ever read a currency this customer is actually assigned —
+        // Only ever read a currency this customer is actually assigned ï¿½
         // this page shows "what this customer sees", nothing more.
         $currency = $customer->currencies()
             ->where('currencies.id', $validated['currency_id'])
@@ -66,7 +66,7 @@ class CustomerChartController extends Controller
             ->orderBy('snapshotted_at')
             ->get(['bucket_date', 'bucket_range', 'entry_price', 'exit_price', 'min_price', 'max_price', 'avg_price'])
             ->map(fn ($row) => [
-                'label' => $row->bucket_date->format('Y-m-d') . ' ' . $row->bucket_range,
+                'label' => \Morilog\Jalali\Jalalian::fromCarbon($row->bucket_date)->format('Y/m/d') . ' ' . $row->bucket_range,
                 'entry' => (float) $row->entry_price,
                 'exit' => (float) $row->exit_price,
                 'min' => (float) $row->min_price,
