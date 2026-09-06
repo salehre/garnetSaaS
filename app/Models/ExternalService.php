@@ -10,7 +10,7 @@ class ExternalService extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['slug', 'label', 'price', 'is_active'];
+    protected $fillable = ['slug', 'match_key', 'label', 'price', 'is_active'];
 
     protected $casts = [
         'price' => 'decimal:2',

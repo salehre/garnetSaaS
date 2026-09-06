@@ -31,6 +31,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->name('customers.regenerate-key');
         Route::post('customers/{customer}/credit', [CustomerController::class, 'creditBalance'])
             ->name('customers.credit');
+        Route::delete('customers/{customer}/transactions/{transaction}', [CustomerController::class, 'deleteTransaction'])
+            ->name('customers.transactions.destroy');
         Route::get('customers/{customer}/chart', [CustomerChartController::class, 'show'])
             ->name('customers.chart');
         Route::get('customers/{customer}/chart-data', [CustomerChartController::class, 'data'])
@@ -38,6 +40,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('currencies', CurrencyController::class)->only(['index', 'edit', 'update']);
         Route::resource('external-services', ExternalServiceController::class)
-            ->except(['show']);
+            ->only(['index', 'edit', 'update']);
+        Route::post('external-services/import', [ExternalServiceController::class, 'importPrices'])
+            ->name('external-services.import');
     });
 });

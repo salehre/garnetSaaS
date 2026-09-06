@@ -121,4 +121,24 @@ class Customer extends Model
             $this->balance = $customer->balance;
         });
     }
+
+    public function reverseTransaction(CustomerWalletTransaction $transaction): void
+    {
+        DB::transaction(function () use ($transaction) {
+            $customer = static::where('id', $this->id)->lockForUpdate()->first();
+
+            if ($transaction->type === 'credit') {
+                $customer->balance -= $transaction->amount;
+            } else {
+                $customer->balance += $transaction->amount;
+            }
+
+            $customer->save();
+            $transaction->delete();
+
+            $this->balance = $customer->balance;
+        });
+    }
+
+
 }

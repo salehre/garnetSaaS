@@ -1,25 +1,23 @@
-@extends('admin.layouts.app')
+<?php $__env->startSection('title', 'ویرایش مشتری'); ?>
 
-@section('title', 'ویرایش مشتری')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <h3 style="margin-top:0;">ویرایش مشتری</h3>
-            <a href="{{ route('admin.customers.chart', $customer) }}" class="btn btn-secondary">مشاهده نمودار</a>
+            <a href="<?php echo e(route('admin.customers.chart', $customer)); ?>" class="btn btn-secondary">مشاهده نمودار</a>
         </div>
-        <form action="{{ route('admin.customers.update', $customer) }}" method="POST">
-            @method('PUT')
-            @include('admin.customers._form')
+        <form action="<?php echo e(route('admin.customers.update', $customer)); ?>" method="POST">
+            <?php echo method_field('PUT'); ?>
+            <?php echo $__env->make('admin.customers._form', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
         </form>
     </div>
 
     <div class="card">
         <h3 style="margin-top:0;">API Key</h3>
 
-        @if (session('status'))
-            <div class="alert alert-success">{{ session('status') }}</div>
-        @endif
+        <?php if(session('status')): ?>
+            <div class="alert alert-success"><?php echo e(session('status')); ?></div>
+        <?php endif; ?>
 
         <p style="font-size: 13px; color: #6b7280; margin-bottom: 4px;">
             این کلید ثابت است و تا وقتی که دستی از نو صادر نکنی تغییر نمی‌کند.
@@ -30,7 +28,7 @@
     <input type="text"
            id="api-key-input"
            readonly
-           value="{{ $customer->api_key }}"
+           value="<?php echo e($customer->api_key); ?>"
            style="flex:1; font-family:monospace; background:#f3f4f6; padding:8px; border-radius:6px; border:1px solid #d1d5db;"
            onclick="this.select();">
 
@@ -60,14 +58,14 @@
 
         <p style="font-size: 13px; color: #6b7280; margin-top: 12px;">
             دامنه‌ی مجاز فعلی:
-            <strong>{{ $customer->allowed_domain ?: 'تنظیم نشده (بدون محدودیت دامنه)' }}</strong>
+            <strong><?php echo e($customer->allowed_domain ?: 'تنظیم نشده (بدون محدودیت دامنه)'); ?></strong>
             — از فرم بالا قابل تغییره.
         </p>
 
-        <form action="{{ route('admin.customers.regenerate-key', $customer) }}" method="POST"
+        <form action="<?php echo e(route('admin.customers.regenerate-key', $customer)); ?>" method="POST"
               onsubmit="return confirm('کلید فعلی از کار می‌افتد و مشتری باید کلید جدید را دریافت کند. ادامه می‌دهید؟');"
               style="margin-top: 12px;">
-            @csrf
+            <?php echo csrf_field(); ?>
             <button type="submit" class="btn btn-primary">صدور کلید جدید</button>
         </form>
     </div>
@@ -78,13 +76,13 @@
         <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:16px; margin-bottom:12px;">
             <div style="font-size:13px; color:#1e40af;">موجودی فعلی</div>
             <div style="font-size:32px; font-weight:700; color:#1e3a8a; margin-top:4px;">
-                {{ number_format($customer->balance) }} <span style="font-size:14px; font-weight:400;">تومن</span>
+                <?php echo e(number_format($customer->balance)); ?> <span style="font-size:14px; font-weight:400;">تومن</span>
             </div>
         </div>
 
-        <form action="{{ route('admin.customers.credit', $customer) }}" method="POST"
+        <form action="<?php echo e(route('admin.customers.credit', $customer)); ?>" method="POST"
               style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
-            @csrf
+            <?php echo csrf_field(); ?>
             <div>
                 <label for="amount" style="display:block; font-size:13px; margin-bottom:4px;">مبلغ شارژ (تومن)</label>
                 <input type="number" id="amount" name="amount" step="0.01" min="0.01" required style="width:160px;">
@@ -95,9 +93,16 @@
             </div>
             <button type="submit" style="padding: 8px 14px;" class="btn btn-primary">شارژ موجودی</button>
         </form>
-        @error('amount') <div style="color:#dc2626; font-size:12px; margin-top:6px;">{{ $message }}</div> @enderror
+        <?php $__errorArgs = ['amount'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <div style="color:#dc2626; font-size:12px; margin-top:6px;"><?php echo e($message); ?></div> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
-        @if ($recentTransactions->isNotEmpty())
+        <?php if($recentTransactions->isNotEmpty()): ?>
             <table style="width:100%; border-collapse:collapse; margin-top:20px;">
                 <thead>
                     <tr style="text-align:right; border-bottom:1px solid #e5e7eb; font-size:13px; color:#6b7280;">
@@ -110,34 +115,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($recentTransactions as $tx)
+                    <?php $__currentLoopData = $recentTransactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tx): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr style="border-bottom:1px solid #f3f4f6; font-size:13px;">
-                            <td style="padding:6px;">{{ verta($tx->created_at)->format('Y/m/d - H:i') }}</td>
+                            <td style="padding:6px;"><?php echo e(verta($tx->created_at)->format('Y/m/d - H:i')); ?></td>
                             <td style="padding:6px;">
-                                @if ($tx->type === 'credit')
+                                <?php if($tx->type === 'credit'): ?>
                                     <span style="color:#16a34a;">شارژ</span>
-                                @else
+                                <?php else: ?>
                                     <span style="color:#dc2626;">کسر</span>
-                                @endif
+                                <?php endif; ?>
                             </td>
-                            <td style="padding:6px;">{{ number_format($tx->amount) }}</td>
-                            <td style="padding:6px;">{{ number_format($tx->balance_after) }}</td>
-                            <td style="padding:6px; color:#6b7280;">{{ $tx->description }}</td>
+                            <td style="padding:6px;"><?php echo e(number_format($tx->amount)); ?></td>
+                            <td style="padding:6px;"><?php echo e(number_format($tx->balance_after)); ?></td>
+                            <td style="padding:6px; color:#6b7280;"><?php echo e($tx->description); ?></td>
                             <td style="padding:6px; text-align:left;">
-                                <form action="{{ route('admin.customers.transactions.destroy', [$customer, $tx]) }}" method="POST"
+                                <form action="<?php echo e(route('admin.customers.transactions.destroy', [$customer, $tx])); ?>" method="POST"
                                       onsubmit="return confirm('این تراکنش حذف و موجودی به قبل از آن برمی‌گردد. مطمئنی؟');">
-                                    @csrf
-                                    @method('DELETE')
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
                                     <button type="submit" class="btn btn-danger" style="padding:4px 10px; font-size:12px;">حذف</button>
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
-        @else
+        <?php else: ?>
             <p style="font-size:13px; color:#6b7280; margin-top:16px;">هنوز هیچ تراکنشی ثبت نشده.</p>
-        @endif
+        <?php endif; ?>
     </div>
 
 <script>
@@ -179,4 +184,5 @@
         }
     }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\projects\garnetSaaS\resources\views/admin/customers/edit.blade.php ENDPATH**/ ?>

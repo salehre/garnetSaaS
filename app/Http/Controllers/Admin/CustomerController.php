@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Customer;
+use App\Models\CustomerWalletTransaction;
 use App\Models\ExternalService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -148,5 +149,19 @@ class CustomerController extends Controller
         return redirect()
             ->route('admin.customers.edit', $customer)
             ->with('status', 'موجودی با موفقیت شارژ شد.');
+    }
+
+    /**
+     * Delete a wallet transaction and undo its effect on the balance.
+     */
+    public function deleteTransaction(Customer $customer, CustomerWalletTransaction $transaction): RedirectResponse
+    {
+        abort_if($transaction->customer_id !== $customer->id, 404);
+
+        $customer->reverseTransaction($transaction);
+
+        return redirect()
+            ->route('admin.customers.edit', $customer)
+            ->with('status', 'تراکنش حذف و موجودی برگردانده شد.');
     }
 }
