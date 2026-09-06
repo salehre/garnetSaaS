@@ -7,9 +7,10 @@
               style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
             <?php echo csrf_field(); ?>
             <div style="flex:1; min-width:240px;">
+                <label for="file">فایل اکسل (.xlsx)</label>
                 <input type="file" id="file" name="file" accept=".xlsx,.xls" required>
             </div>
-            <button type="submit" class="btn btn-primary">آپلود</button>
+            <button type="submit" class="btn btn-primary">آپلود و به‌روزرسانی</button>
         </form>
         <?php $__errorArgs = ['file'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -19,13 +20,13 @@ $message = $__bag->first($__errorArgs[0]); ?> <div style="color:#dc2626; font-si
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-        <p style="font-size:14px; color:#6b7280; margin-top:8px;">
-           فقط سرویس‌های جدید که توی لیست ما نیستن به‌صورت غیرفعال اضافه می‌شن 
+        <p style="font-size:12px; color:#6b7280; margin-top:8px;">
+            سرویس‌های جدید که توی لیست ما نیستن، به‌صورت غیرفعال اضافه می‌شن. سرویس‌های موجود فقط قیمتشون آپدیت می‌شه — وضعیت فعال/غیرفعال و کدشون دست نمی‌خوره.
         </p>
     </div>
 
     <div class="card">
-        <h2 style="margin-top:0;">سرویس‌های بیرونی - api.ir</h2>
+        <h2 style="margin-top:0;">سرویس‌های بیرونی (api.ir)</h2>
 
         <table style="width:100%; border-collapse: collapse;">
             <thead>
@@ -41,7 +42,11 @@ unset($__errorArgs, $__bag); ?>
                 <?php $__empty_1 = true; $__currentLoopData = $services; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr style="border-bottom:1px solid #f3f4f6;">
                         <td style="padding:8px;"><?php echo e($service->label); ?></td>
-                        <td style="padding:8px;"><?php echo e(number_format($service->price)); ?></td>
+                        <td style="padding:8px;">
+                            <?php echo e(number_format($service->price)); ?>
+
+                            <span style="color:#9ca3af; font-size:11px;">(مشتری: <?php echo e(number_format($service->chargePrice())); ?>)</span>
+                        </td>
                         <td style="padding:8px;">
                             <?php if($service->slug): ?>
                                 <span style="color:#16a34a; font-family:monospace; font-size:12px;"><?php echo e($service->slug); ?></span>
@@ -50,10 +55,11 @@ unset($__errorArgs, $__bag); ?>
                             <?php endif; ?>
                         </td>
                         <td style="padding:8px;">
-                            <span class="badge <?php echo e($service->is_active ? 'badge-active' : 'badge-inactive'); ?>">
-                                <?php echo e($service->is_active ? 'فعال' : 'غیرفعال'); ?>
-
-                            </span>
+                            <?php if($service->is_active): ?>
+                                <span style="color:#16a34a;">فعال</span>
+                            <?php else: ?>
+                                <span style="color:#dc2626;">غیرفعال</span>
+                            <?php endif; ?>
                         </td>
                         <td style="padding:8px; text-align:left;">
                             <a href="<?php echo e(route('admin.external-services.edit', $service)); ?>" class="btn btn-secondary">ویرایش</a>

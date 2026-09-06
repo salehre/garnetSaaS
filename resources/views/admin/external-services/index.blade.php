@@ -9,18 +9,19 @@
               style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
             @csrf
             <div style="flex:1; min-width:240px;">
+                <label for="file">فایل اکسل (.xlsx)</label>
                 <input type="file" id="file" name="file" accept=".xlsx,.xls" required>
             </div>
-            <button type="submit" class="btn btn-primary">آپلود</button>
+            <button type="submit" class="btn btn-primary">آپلود و به‌روزرسانی</button>
         </form>
         @error('file') <div style="color:#dc2626; font-size:12px; margin-top:6px;">{{ $message }}</div> @enderror
-        <p style="font-size:14px; color:#6b7280; margin-top:8px;">
-           فقط سرویس‌های جدید که توی لیست ما نیستن به‌صورت غیرفعال اضافه می‌شن 
+        <p style="font-size:12px; color:#6b7280; margin-top:8px;">
+            سرویس‌های جدید که توی لیست ما نیستن، به‌صورت غیرفعال اضافه می‌شن. سرویس‌های موجود فقط قیمتشون آپدیت می‌شه — وضعیت فعال/غیرفعال و کدشون دست نمی‌خوره.
         </p>
     </div>
 
     <div class="card">
-        <h2 style="margin-top:0;">سرویس‌های بیرونی - api.ir</h2>
+        <h2 style="margin-top:0;">سرویس‌های بیرونی (api.ir)</h2>
 
         <table style="width:100%; border-collapse: collapse;">
             <thead>
@@ -36,7 +37,10 @@
                 @forelse ($services as $service)
                     <tr style="border-bottom:1px solid #f3f4f6;">
                         <td style="padding:8px;">{{ $service->label }}</td>
-                        <td style="padding:8px;">{{ number_format($service->price) }}</td>
+                        <td style="padding:8px;">
+                            {{ number_format($service->price) }}
+                            <span style="color:#9ca3af; font-size:11px;">(مشتری: {{ number_format($service->chargePrice()) }})</span>
+                        </td>
                         <td style="padding:8px;">
                             @if ($service->slug)
                                 <span style="color:#16a34a; font-family:monospace; font-size:12px;">{{ $service->slug }}</span>
@@ -45,9 +49,11 @@
                             @endif
                         </td>
                         <td style="padding:8px;">
-                            <span class="badge {{ $service->is_active ? 'badge-active' : 'badge-inactive' }}">
-                                {{ $service->is_active ? 'فعال' : 'غیرفعال' }}
-                            </span>
+                            @if ($service->is_active)
+                                <span style="color:#16a34a;">فعال</span>
+                            @else
+                                <span style="color:#dc2626;">غیرفعال</span>
+                            @endif
                         </td>
                         <td style="padding:8px; text-align:left;">
                             <a href="{{ route('admin.external-services.edit', $service) }}" class="btn btn-secondary">ویرایش</a>

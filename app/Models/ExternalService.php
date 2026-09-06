@@ -17,8 +17,16 @@ class ExternalService extends Model
         'is_active' => 'boolean',
     ];
 
+    /**
+     * Markup applied on top of the raw api.ir cost when charging the customer.
+     * `price` stays the imported/raw cost from the Excel sheet; this multiplier
+     * is applied only at charge-time, so changing it never touches `price`.
+     */
     public const MARKUP_MULTIPLIER = 1.5;
 
+    /**
+     * The amount actually deducted from a customer's wallet per call.
+     */
     public function chargePrice(): float
     {
         return round(((float) $this->price) * self::MARKUP_MULTIPLIER, 2);

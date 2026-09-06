@@ -34,7 +34,7 @@ class ServiceCallController extends Controller
 
         // Cheap pre-check before we even touch the cache/upstream call — no
         // point calling api.ir for a customer who can't pay for it anyway.
-        if ($customer->balance < $service->price) {
+        if ($customer->balance < $service->chargePrice()) {
             return response()->json(['message' => 'Insufficient balance.'], 402);
         }
 

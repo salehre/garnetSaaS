@@ -53,11 +53,18 @@ class Customer extends Model
         return $this->hasMany(CustomerWalletTransaction::class);
     }
 
+    /**
+     * Convert a raw Toman price to this customer's preferred unit.
+     */
     public function convertPrice(float $tomanPrice): float
     {
         return $this->price_unit === 'rial' ? $tomanPrice * 10 : $tomanPrice;
     }
 
+    /**
+     * Whether a request's Origin/Referer host matches this customer's allowed domain.
+     * If no domain is configured for the customer, the check is skipped (open).
+     */
     public function domainIsAllowed(?string $requestHost): bool
     {
         if (empty($this->allowed_domain)) {
@@ -71,27 +78,38 @@ class Customer extends Model
         return strcasecmp($requestHost, $this->allowed_domain) === 0;
     }
 
+    /**
+     * Whether this customer currently has the given external service (by slug) enabled.
+     */
     public function hasService(string $slug): bool
     {
         return $this->externalServices()->where('slug', $slug)->exists();
     }
 
+    /**
+     * Charge this customer's wallet for one call to an external service.
+     * Atomic: locks the row, re-checks balance, deducts, and logs the transaction
+     * in a single DB transaction — safe even under concurrent requests.
+     *
+     * Returns true if the charge succeeded, false if balance was insufficient.
+     */
     public function chargeForService(ExternalService $service, string $description): bool
     {
         return DB::transaction(function () use ($service, $description) {
             $customer = static::where('id', $this->id)->lockForUpdate()->first();
+            $chargeAmount = $service->chargePrice();
 
-            if ($customer->balance < $service->price) {
+            if ($customer->balance < $chargeAmount) {
                 return false;
             }
 
-            $customer->balance -= $service->price;
+            $customer->balance -= $chargeAmount;
             $customer->save();
 
             CustomerWalletTransaction::create([
                 'customer_id' => $customer->id,
                 'type' => 'debit',
-                'amount' => $service->price,
+                'amount' => $chargeAmount,
                 'balance_after' => $customer->balance,
                 'description' => $description,
             ]);
@@ -102,6 +120,33 @@ class Customer extends Model
         });
     }
 
+    /**
+     * Undo one wallet transaction: reverses its effect on the balance
+     * (a credit gets subtracted back out, a debit gets refunded), then
+     * deletes the transaction row. Atomic and lock-protected like the
+     * other balance mutations.
+     */
+    public function reverseTransaction(CustomerWalletTransaction $transaction): void
+    {
+        DB::transaction(function () use ($transaction) {
+            $customer = static::where('id', $this->id)->lockForUpdate()->first();
+
+            if ($transaction->type === 'credit') {
+                $customer->balance -= $transaction->amount;
+            } else {
+                $customer->balance += $transaction->amount;
+            }
+
+            $customer->save();
+            $transaction->delete();
+
+            $this->balance = $customer->balance;
+        });
+    }
+
+    /**
+     * Add credit to this customer's wallet (e.g. an admin manually topping it up).
+     */
     public function creditBalance(float $amount, string $description): void
     {
         DB::transaction(function () use ($amount, $description) {
@@ -121,24 +166,4 @@ class Customer extends Model
             $this->balance = $customer->balance;
         });
     }
-
-    public function reverseTransaction(CustomerWalletTransaction $transaction): void
-    {
-        DB::transaction(function () use ($transaction) {
-            $customer = static::where('id', $this->id)->lockForUpdate()->first();
-
-            if ($transaction->type === 'credit') {
-                $customer->balance -= $transaction->amount;
-            } else {
-                $customer->balance += $transaction->amount;
-            }
-
-            $customer->save();
-            $transaction->delete();
-
-            $this->balance = $customer->balance;
-        });
-    }
-
-
 }
