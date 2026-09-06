@@ -17,6 +17,13 @@ class ExternalService extends Model
         'is_active' => 'boolean',
     ];
 
+    public const MARKUP_MULTIPLIER = 1.5;
+
+    public function chargePrice(): float
+    {
+        return round(((float) $this->price) * self::MARKUP_MULTIPLIER, 2);
+    }
+
     public function customers(): BelongsToMany
     {
         return $this->belongsToMany(Customer::class);
