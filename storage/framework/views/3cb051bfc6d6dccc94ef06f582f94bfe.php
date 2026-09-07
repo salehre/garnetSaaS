@@ -1,21 +1,27 @@
-
-
 <?php $__env->startSection('title', 'ویرایش سرویس'); ?>
 
 <?php $__env->startSection('content'); ?>
     <div class="card">
-        <h2 style="margin-top:0;">ویرایش سرویس: <?php echo e($service->label); ?></h2>
+        <h2 style="margin-top:0;"><?php echo e($service->label); ?></h2>
 
         <p style="font-size:13px; color:#6b7280;">
-            Slug: <code><?php echo e($service->slug); ?></code> (غیرقابل‌تغییر، چون به کد پردازش‌کننده وصله)
+            قیمت خام (از اکسل): <strong><?php echo e(number_format($service->price)); ?> تومن</strong><br>
+            مبلغی که از مشتری کسر می‌شه (×<?php echo e(\App\Models\ExternalService::MARKUP_MULTIPLIER); ?>): <strong><?php echo e(number_format($service->chargePrice())); ?> تومن</strong>
+        
+        </p>
+
+        <p style="font-size:13px; color:#6b7280;">
+            کد پیاده‌سازی (slug):
+            <?php if($service->slug): ?>
+                <code><?php echo e($service->slug); ?></code>
+            <?php else: ?>
+                <span style="color:#9ca3af;">هنوز پیاده‌سازی نشده — تا کد این سرویس نوشته نشه، فعال کردنش اثری نداره.</span>
+            <?php endif; ?>
         </p>
 
         <form action="<?php echo e(route('admin.external-services.update', $service)); ?>" method="POST">
             <?php echo method_field('PUT'); ?>
             <?php echo csrf_field(); ?>
-
-            <label for="price">قیمت هر Call (تومن)</label>
-            <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo e(old('price', $service->price)); ?>" required>
 
             <label>
                 <input type="checkbox" name="is_active" value="1" <?php echo e(old('is_active', $service->is_active) ? 'checked' : ''); ?>>

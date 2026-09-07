@@ -23,6 +23,10 @@
             @if ($adminId)
                 <a href="{{ route('admin.logs.index') }}" class="btn btn-secondary">پاک کردن فیلتر</a>
             @endif
+            <a href="{{ route('admin.logs.index', ['admin_id' => $adminId, 'sort' => $sort === 'desc' ? 'asc' : 'desc']) }}"
+               class="btn btn-secondary">
+                {{ $sort === 'desc' ? 'قدیمی‌ترین‌' : 'جدیدترین‌' }}
+            </a>
         </form>
 
         <table style="width:100%; border-collapse: collapse;">
