@@ -14,7 +14,7 @@ class AdminSeeder extends Seeder
             ['email' => 'abdolahei@gmail.com', 'name' => 'Behrooz'],
             ['email' => 'salehrezaeipoor123@gmail.com', 'name' => 'Amin'],
             ['email' => 'aminkhanzadehomran@gmail.com', 'name' => 'Saleh'],
-            ['email' => 'admin4@example.com', 'name' => 'Admin 4'],
+            ['email' => 'mehdimuhammadi3@gmail.com', 'name' => 'Agha Mehdi'],
         ];
 
         foreach ($admins as $admin) {

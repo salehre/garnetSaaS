@@ -10,7 +10,7 @@
               style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap; margin-bottom:16px;">
             <div>
                 <label for="admin_id" style="display:block; font-size:13px; margin-bottom:4px;">ادمین</label>
-                <select id="admin_id" name="admin_id" style="min-width:200px;">
+                <select id="admin_id" name="admin_id" style="min-width:200px; padding:4px 6px;">
                     <option value="">همه</option>
                     @foreach ($admins as $admin)
                         <option value="{{ $admin->id }}" {{ (string) $adminId === (string) $admin->id ? 'selected' : '' }}>
@@ -37,7 +37,7 @@
             <tbody>
                 @forelse ($logs as $log)
                     <tr style="border-bottom:1px solid #f3f4f6;">
-                        <td style="padding:8px; white-space:nowrap;">{{ $log->created_at->format('Y-m-d H:i:s') }}</td>
+                        <td style="padding:8px; white-space:nowrap;">{{ verta($log->created_at)->format('Y/m/d - H:i:s') }}</td>
                         <td style="padding:8px;">{{ $log->admin->name ?? 'حذف‌شده' }}</td>
                         <td style="padding:8px; font-family:monospace; font-size:12px; color:#6b7280;">{{ $log->action }}</td>
                         <td style="padding:8px;">{{ $log->description }}</td>
