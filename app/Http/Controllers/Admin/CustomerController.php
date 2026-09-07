@@ -56,7 +56,7 @@ class CustomerController extends Controller
             ->with('status', 'مشتری با موفقیت ایجاد شد.');
     }
 
-    public function edit(Customer $customer): View
+    public function edit(Request $request, Customer $customer): View
     {
         $currencies = Currency::where('is_active', true)->orderBy('label')->get();
         $selectedCurrencyIds = $customer->currencies()->pluck('currencies.id')->toArray();
@@ -64,7 +64,29 @@ class CustomerController extends Controller
         $externalServices = ExternalService::where('is_active', true)->orderBy('label')->get();
         $selectedServiceIds = $customer->externalServices()->pluck('external_services.id')->toArray();
 
-        $recentTransactions = $customer->walletTransactions()->latest()->limit(10)->get();
+        $txType = $request->query('tx_type');
+        $txDescription = $request->query('tx_description');
+
+        $transactionsQuery = $customer->walletTransactions()->latest();
+
+        if (in_array($txType, ['credit', 'debit'], true)) {
+            $transactionsQuery->where('type', $txType);
+        }
+
+        if (filled($txDescription)) {
+            $transactionsQuery->where('description', $txDescription);
+        }
+
+        $recentTransactions = $transactionsQuery->limit(50)->get();
+
+        // Every distinct description this customer has ever had a transaction
+        // for — populates the "توضیح" filter dropdown with real values only.
+        $transactionDescriptions = $customer->walletTransactions()
+            ->select('description')
+            ->distinct()
+            ->whereNotNull('description')
+            ->orderBy('description')
+            ->pluck('description');
 
         return view('admin.customers.edit', compact(
             'customer',
@@ -72,7 +94,10 @@ class CustomerController extends Controller
             'selectedCurrencyIds',
             'externalServices',
             'selectedServiceIds',
-            'recentTransactions'
+            'recentTransactions',
+            'transactionDescriptions',
+            'txType',
+            'txDescription'
         ));
     }
 
