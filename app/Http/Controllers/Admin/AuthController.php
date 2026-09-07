@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\AdminLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,7 @@ class AuthController extends Controller
 
         if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+            AdminLogger::log('admin.logged_in', 'ورود به پنل مدیریت.');
             return redirect()->intended(route('admin.dashboard'));
         }
 
@@ -35,6 +37,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        AdminLogger::log('admin.logged_out', 'خروج از پنل مدیریت.');
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

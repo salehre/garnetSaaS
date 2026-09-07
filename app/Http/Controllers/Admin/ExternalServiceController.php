@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExternalService;
+use App\Services\AdminLogger;
 use App\Services\ExternalApi\ExternalServiceRegistry;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,6 +30,11 @@ class ExternalServiceController extends Controller
         $externalService->update([
             'is_active' => $request->boolean('is_active'),
         ]);
+
+        AdminLogger::log(
+            'external_service.updated',
+            "سرویس «{$externalService->label}» " . ($externalService->is_active ? 'فعال' : 'غیرفعال') . ' شد.'
+        );
 
         return redirect()
             ->route('admin.external-services.index')
@@ -83,6 +89,11 @@ class ExternalServiceController extends Controller
                 $created++;
             }
         }
+
+        AdminLogger::log(
+            'external_service.prices_imported',
+            "اکسل قیمت‌ها آپلود شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد."
+        );
 
         return redirect()
             ->route('admin.external-services.index')

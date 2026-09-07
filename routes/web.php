@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminLogController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\CustomerChartController;
@@ -43,5 +44,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->only(['index', 'edit', 'update']);
         Route::post('external-services/import', [ExternalServiceController::class, 'importPrices'])
             ->name('external-services.import');
+
+        Route::get('logs', [AdminLogController::class, 'index'])->name('logs.index');
     });
 });

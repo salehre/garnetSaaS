@@ -57,7 +57,7 @@ class ServiceCallController extends Controller
 
         // Billed on every successful call, cache hit or not — caching only
         // saves us a redundant call to api.ir, it doesn't make the lookup free.
-        $charged = $customer->chargeForService($service, "external-service:{$slug}");
+        $charged = $customer->chargeForService($service, $service->label);
 
         if (!$charged) {
             // Balance could have changed between the pre-check above and now

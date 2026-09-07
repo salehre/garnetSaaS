@@ -7,6 +7,7 @@ use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\CustomerWalletTransaction;
 use App\Models\ExternalService;
+use App\Services\AdminLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -50,6 +51,8 @@ class CustomerController extends Controller
 
         $customer->currencies()->sync($validated['currency_ids'] ?? []);
         $customer->externalServices()->sync($validated['external_service_ids'] ?? []);
+
+        AdminLogger::log('customer.created', "مشتری «{$customer->name}» ساخته شد.");
 
         return redirect()
             ->route('admin.customers.index')
@@ -124,6 +127,8 @@ class CustomerController extends Controller
         $customer->currencies()->sync($validated['currency_ids'] ?? []);
         $customer->externalServices()->sync($validated['external_service_ids'] ?? []);
 
+        AdminLogger::log('customer.updated', "مشتری «{$customer->name}» ویرایش شد.");
+
         return redirect()
             ->route('admin.customers.index')
             ->with('status', 'تغییرات ذخیره شد.');
@@ -131,7 +136,10 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer): RedirectResponse
     {
+        $name = $customer->name;
         $customer->delete();
+
+        AdminLogger::log('customer.deleted', "مشتری «{$name}» حذف شد.");
 
         return redirect()
             ->route('admin.customers.index')
@@ -150,6 +158,8 @@ class CustomerController extends Controller
     {
         $customer->api_key = Customer::generateUniqueApiKey();
         $customer->save();
+
+        AdminLogger::log('customer.api_key_regenerated', "کلید API مشتری «{$customer->name}» صادر مجدد شد.");
 
         return redirect()
             ->route('admin.customers.edit', $customer)
@@ -171,6 +181,11 @@ class CustomerController extends Controller
             $validated['description'] ?: 'شارژ دستی توسط ادمین'
         );
 
+        AdminLogger::log(
+            'customer.wallet_credited',
+            "کیف‌پول مشتری «{$customer->name}» به مبلغ " . number_format((float) $validated['amount']) . ' تومن شارژ شد.'
+        );
+
         return redirect()
             ->route('admin.customers.edit', $customer)
             ->with('status', 'موجودی با موفقیت شارژ شد.');
@@ -184,6 +199,11 @@ class CustomerController extends Controller
         abort_if($transaction->customer_id !== $customer->id, 404);
 
         $customer->reverseTransaction($transaction);
+
+        AdminLogger::log(
+            'customer.wallet_transaction_deleted',
+            "یک تراکنش کیف‌پول مشتری «{$customer->name}» حذف و موجودی برگردانده شد."
+        );
 
         return redirect()
             ->route('admin.customers.edit', $customer)

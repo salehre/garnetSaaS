@@ -15,10 +15,6 @@
     <div class="card">
         <h3 style="margin-top:0;">API Key</h3>
 
-        <?php if(session('status')): ?>
-            <div class="alert alert-success"><?php echo e(session('status')); ?></div>
-        <?php endif; ?>
-
         <p style="font-size: 13px; color: #6b7280; margin-bottom: 4px;">
             این کلید ثابت است و تا وقتی که دستی از نو صادر نکنی تغییر نمی‌کند.
             همین را در اختیار مشتری بگذار تا با هدر <code>X-API-KEY</code> در درخواست‌هایش استفاده کند.
@@ -35,7 +31,7 @@
     <button type="button"
             id="copy-api-key-btn"
             class="btn btn-secondary"
-            style="padding: 6px 11px;"
+            style="padding: 6px 10px;"
             onclick="copyApiKey(this)"
             title="کپی">
 
@@ -101,6 +97,31 @@ $message = $__bag->first($__errorArgs[0]); ?> <div style="color:#dc2626; font-si
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+
+        <form action="<?php echo e(route('admin.customers.edit', $customer)); ?>" method="GET"
+              style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap; margin-top:20px; padding-top:16px; border-top:1px solid #f3f4f6;">
+            <div>
+                <label for="tx_type" style="display:block; font-size:13px; margin-bottom:4px;">نوع</label>
+                <select id="tx_type" name="tx_type" style="min-width:140px; padding:4px 6px;">
+                    <option value="">همه</option>
+                    <option value="credit" <?php echo e($txType === 'credit' ? 'selected' : ''); ?>>فقط شارژها</option>
+                    <option value="debit" <?php echo e($txType === 'debit' ? 'selected' : ''); ?>>فقط کسرها</option>
+                </select>
+            </div>
+            <div>
+                <label for="tx_description" style="display:block; font-size:13px; margin-bottom:4px;">توضیح</label>
+                <select id="tx_description" name="tx_description" style="min-width:220px; padding:4px 6px;">
+                    <option value="">همه</option>
+                    <?php $__currentLoopData = $transactionDescriptions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $desc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($desc); ?>" <?php echo e($txDescription === $desc ? 'selected' : ''); ?>><?php echo e($desc); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+            </div>
+            <button type="submit"  class="btn btn-secondary">فیلتر</button>
+            <?php if($txType || $txDescription): ?>
+                <a href="<?php echo e(route('admin.customers.edit', $customer)); ?>" class="btn btn-secondary">پاک کردن فیلتر</a>
+            <?php endif; ?>
+        </form>
 
         <?php if($recentTransactions->isNotEmpty()): ?>
             <table style="width:100%; border-collapse:collapse; margin-top:20px;">

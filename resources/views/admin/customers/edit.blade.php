@@ -17,10 +17,6 @@
     <div class="card">
         <h3 style="margin-top:0;">API Key</h3>
 
-        @if (session('status'))
-            <div class="alert alert-success">{{ session('status') }}</div>
-        @endif
-
         <p style="font-size: 13px; color: #6b7280; margin-bottom: 4px;">
             این کلید ثابت است و تا وقتی که دستی از نو صادر نکنی تغییر نمی‌کند.
             همین را در اختیار مشتری بگذار تا با هدر <code>X-API-KEY</code> در درخواست‌هایش استفاده کند.
@@ -37,7 +33,7 @@
     <button type="button"
             id="copy-api-key-btn"
             class="btn btn-secondary"
-            style="padding: 6px 11px;"
+            style="padding: 6px 10px;"
             onclick="copyApiKey(this)"
             title="کپی">
 
@@ -96,6 +92,31 @@
             <button type="submit" style="padding: 8px 14px;" class="btn btn-primary">شارژ موجودی</button>
         </form>
         @error('amount') <div style="color:#dc2626; font-size:12px; margin-top:6px;">{{ $message }}</div> @enderror
+
+        <form action="{{ route('admin.customers.edit', $customer) }}" method="GET"
+              style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap; margin-top:20px; padding-top:16px; border-top:1px solid #f3f4f6;">
+            <div>
+                <label for="tx_type" style="display:block; font-size:13px; margin-bottom:4px;">نوع</label>
+                <select id="tx_type" name="tx_type" style="min-width:140px; padding:4px 6px;">
+                    <option value="">همه</option>
+                    <option value="credit" {{ $txType === 'credit' ? 'selected' : '' }}>فقط شارژها</option>
+                    <option value="debit" {{ $txType === 'debit' ? 'selected' : '' }}>فقط کسرها</option>
+                </select>
+            </div>
+            <div>
+                <label for="tx_description" style="display:block; font-size:13px; margin-bottom:4px;">توضیح</label>
+                <select id="tx_description" name="tx_description" style="min-width:220px; padding:4px 6px;">
+                    <option value="">همه</option>
+                    @foreach ($transactionDescriptions as $desc)
+                        <option value="{{ $desc }}" {{ $txDescription === $desc ? 'selected' : '' }}>{{ $desc }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit"  class="btn btn-secondary">فیلتر</button>
+            @if ($txType || $txDescription)
+                <a href="{{ route('admin.customers.edit', $customer) }}" class="btn btn-secondary">پاک کردن فیلتر</a>
+            @endif
+        </form>
 
         @if ($recentTransactions->isNotEmpty())
             <table style="width:100%; border-collapse:collapse; margin-top:20px;">

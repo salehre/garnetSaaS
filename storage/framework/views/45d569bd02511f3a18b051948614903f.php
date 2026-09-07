@@ -40,6 +40,7 @@
             <a href="<?php echo e(route('admin.customers.index')); ?>">مشتریان</a>
             <a href="<?php echo e(route('admin.currencies.index')); ?>">ارزها</a>
             <a href="<?php echo e(route('admin.external-services.index')); ?>">سرویس‌های بیرونی</a>
+            <a href="<?php echo e(route('admin.logs.index')); ?>">لاگ</a>
         </div>
         <form method="POST" action="<?php echo e(route('admin.logout')); ?>">
             <?php echo csrf_field(); ?>

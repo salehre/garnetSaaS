@@ -40,6 +40,7 @@
             <a href="{{ route('admin.customers.index') }}">مشتریان</a>
             <a href="{{ route('admin.currencies.index') }}">ارزها</a>
             <a href="{{ route('admin.external-services.index') }}">سرویس‌های بیرونی</a>
+            <a href="{{ route('admin.logs.index') }}">لاگ</a>
         </div>
         <form method="POST" action="{{ route('admin.logout') }}">
             @csrf

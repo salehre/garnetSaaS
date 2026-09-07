@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
+use App\Services\AdminLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -33,6 +34,11 @@ class CurrencyController extends Controller
             'label' => $validated['label'],
             'is_active' => $request->boolean('is_active'),
         ]);
+
+        AdminLogger::log(
+            'currency.updated',
+            "ارز «{$currency->label}» ویرایش شد (وضعیت: " . ($currency->is_active ? 'فعال' : 'غیرفعال') . ')'
+        );
 
         return redirect()
             ->route('admin.currencies.index')
