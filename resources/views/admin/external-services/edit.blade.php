@@ -9,7 +9,7 @@
         <p style="font-size:13px; color:#6b7280;">
             قیمت خام (از اکسل): <strong>{{ number_format($service->price) }} تومن</strong><br>
             مبلغی که از مشتری کسر می‌شه (×{{ \App\Models\ExternalService::MARKUP_MULTIPLIER }}): <strong>{{ number_format($service->chargePrice()) }} تومن</strong>
-            (اینجا قابل‌ویرایش نیست، از اکسل میاد)
+        
         </p>
 
         <p style="font-size:13px; color:#6b7280;">
