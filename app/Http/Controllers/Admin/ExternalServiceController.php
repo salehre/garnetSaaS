@@ -33,7 +33,7 @@ class ExternalServiceController extends Controller
 
         AdminLogger::log(
             'external_service.updated',
-            "سرویس «{$externalService->label}» " . ($externalService->is_active ? 'فعال' : 'غیرفعال') . ' شد.'
+            "سرویس «{$externalService->label}» " . ($externalService->is_active ? 'فعال' : 'غیرفعال') . ' شد'
         );
 
         return redirect()
@@ -92,11 +92,11 @@ class ExternalServiceController extends Controller
 
         AdminLogger::log(
             'external_service.prices_imported',
-            "اکسل قیمت‌ها آپلود شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد."
+            "اکسل قیمت‌ها آپلود شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد"
         );
 
         return redirect()
             ->route('admin.external-services.index')
-            ->with('status', "وارد شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد.");
+            ->with('status', "وارد شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد");
     }
 }

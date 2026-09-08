@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'لاگ فعالیت‌ها'); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -24,6 +22,11 @@
             <?php if($adminId): ?>
                 <a href="<?php echo e(route('admin.logs.index')); ?>" class="btn btn-secondary">پاک کردن فیلتر</a>
             <?php endif; ?>
+            <a href="<?php echo e(route('admin.logs.index', ['admin_id' => $adminId, 'sort' => $sort === 'desc' ? 'asc' : 'desc'])); ?>"
+               class="btn btn-secondary">
+                <?php echo e($sort === 'desc' ? 'قدیمی‌ترین‌' : 'جدیدترین‌'); ?>
+
+            </a>
         </form>
 
         <table style="width:100%; border-collapse: collapse;">

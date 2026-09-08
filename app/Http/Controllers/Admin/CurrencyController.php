@@ -42,6 +42,6 @@ class CurrencyController extends Controller
 
         return redirect()
             ->route('admin.currencies.index')
-            ->with('status', 'ارز به‌روزرسانی شد.');
+            ->with('status', 'ارز به‌روزرسانی شد');
     }
 }

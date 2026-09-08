@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            AdminLogger::log('admin.logged_in', 'ورود به پنل مدیریت.');
+            AdminLogger::log('admin.logged_in', 'ورود به پنل مدیریت');
             return redirect()->intended(route('admin.dashboard'));
         }
 
@@ -37,7 +37,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        AdminLogger::log('admin.logged_out', 'خروج از پنل مدیریت.');
+        AdminLogger::log('admin.logged_out', 'خروج از پنل مدیریت');
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
