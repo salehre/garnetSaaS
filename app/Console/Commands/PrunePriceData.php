@@ -32,7 +32,7 @@ class PrunePriceData extends Command
             ->delete();
 
         $this->info(sprintf(
-            'Pruned — raw: %d, 2h: %d, 6h: %d, 12h: %d, 24h: %d',
+            'Pruned â€” raw: %d, 2h: %d, 6h: %d, 12h: %d, 24h: %d',
             $rawDeleted,
             $weeklyDeleted,
             $monthlyDeleted,
