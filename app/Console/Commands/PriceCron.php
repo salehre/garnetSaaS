@@ -10,7 +10,7 @@ use Throwable;
 class PriceCron extends Command
 {
     protected $signature = 'prices:cron';
-    protected $description = 'Single cron entry point: runs prices:fetch every minute, and fires prices:snapshot / prices:prune exactly on their clock boundaries — all in one process, no proc_open needed';
+    protected $description = 'Single cron entry point: runs prices:fetch every minute, and fires prices:snapshot / prices:prune near their clock boundaries — all in one process, no proc_open needed';
 
     private const SNAPSHOT_INTERVALS = [
         '2h' => 2,
@@ -19,13 +19,16 @@ class PriceCron extends Command
         '24h' => 24,
     ];
 
+    private const GRACE_MINUTES = 5;
+
     public function handle(): int
     {
         $now = now();
 
+        // Every minute, no matter what.
         $this->runTask('prices:fetch');
 
-        if ($now->minute === 0) {
+        if ($now->minute < self::GRACE_MINUTES) {
             foreach (self::SNAPSHOT_INTERVALS as $interval => $hoursPerBucket) {
                 if ($now->hour % $hoursPerBucket === 0) {
                     $this->runTask('prices:snapshot', ['interval' => $interval]);
@@ -43,7 +46,7 @@ class PriceCron extends Command
         try {
             Artisan::call($command, $parameters);
         } catch (Throwable $e) {
-            Log::error("prices:cron � task [{$command}] failed: {$e->getMessage()}");
+            Log::error("prices:cron — task [{$command}] failed: {$e->getMessage()}");
         }
     }
 }
