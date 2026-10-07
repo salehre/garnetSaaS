@@ -10,6 +10,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ExternalServiceController extends Controller
 {
@@ -33,12 +36,49 @@ class ExternalServiceController extends Controller
 
         AdminLogger::log(
             'external_service.updated',
-            "سرویس «{$externalService->label}» " . ($externalService->is_active ? 'فعال' : 'غیرفعال') . ' شد'
+            "سرویس «{$externalService->label}» " . ($externalService->is_active ? 'فعال' : 'غیرفعال') . ' شد.'
         );
 
         return redirect()
             ->route('admin.external-services.index')
             ->with('status', 'تغییرات ذخیره شد.');
+    }
+
+    public function downloadTemplate(): StreamedResponse
+    {
+        $services = ExternalService::orderBy('label')->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('سرویس‌های API.ir');
+
+        $sheet->fromArray(
+            ['ردیف', 'نام سرویس (کلید مچ کردن)', 'قیمت هر Call (تومان)', 'نام API (Endpoint)'],
+            null,
+            'A1'
+        );
+
+        $row = 2;
+        foreach ($services as $index => $service) {
+            $sheet->fromArray(
+                [$index + 1, $service->match_key ?? $service->label, (float) $service->price, ''],
+                null,
+                'A' . $row
+            );
+            $row++;
+        }
+
+        foreach (range('A', 'D') as $column) {
+            $sheet->getColumnDimension($column)->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, 'external-services-template.xlsx', [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
     }
 
     /**
@@ -92,11 +132,11 @@ class ExternalServiceController extends Controller
 
         AdminLogger::log(
             'external_service.prices_imported',
-            "اکسل قیمت‌ها آپلود شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد"
+            "اکسل قیمت‌ها آپلود شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد."
         );
 
         return redirect()
             ->route('admin.external-services.index')
-            ->with('status', "وارد شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد");
+            ->with('status', "وارد شد: {$created} سرویس جدید، {$updated} سرویس قیمتش آپدیت شد.");
     }
 }

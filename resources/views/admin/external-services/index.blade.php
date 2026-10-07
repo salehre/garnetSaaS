@@ -51,6 +51,11 @@
 
     <div class="card">
         <h2 style="margin-top:0;">به‌روزرسانی قیمت‌ها از اکسل api.ir</h2>
+
+        <div style="margin-bottom:12px;">
+            <a href="{{ route('admin.external-services.template') }}" class="btn btn-secondary">دانلود قالب اکسل (با قیمت‌های فعلی)</a>
+        </div>
+
         <form action="{{ route('admin.external-services.import') }}" method="POST" enctype="multipart/form-data"
               style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
             @csrf
@@ -65,7 +70,7 @@
         </form>
         @error('file') <div style="color:#dc2626; font-size:12px; margin-top:6px;">{{ $message }}</div> @enderror
         <p style="font-size:14px; color:#6b7280; margin-top:8px;">
-           فقط سرویس‌های جدید که توی لیست ما نیستن به‌صورت غیرفعال اضافه می‌شن 
+           فقط سرویس‌های جدید که توی لیست ما نیستن به‌صورت غیرفعال اضافه می‌شن
         </p>
     </div>
 

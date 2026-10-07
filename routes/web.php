@@ -40,8 +40,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->name('customers.chart-data');
 
         Route::resource('currencies', CurrencyController::class)->only(['index', 'edit', 'update']);
+
         Route::resource('external-services', ExternalServiceController::class)
             ->only(['index', 'edit', 'update']);
+        Route::get('external-services/template', [ExternalServiceController::class, 'downloadTemplate'])
+            ->name('external-services.template');
         Route::post('external-services/import', [ExternalServiceController::class, 'importPrices'])
             ->name('external-services.import');
 

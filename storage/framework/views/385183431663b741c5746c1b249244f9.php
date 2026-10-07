@@ -49,6 +49,11 @@
 
     <div class="card">
         <h2 style="margin-top:0;">به‌روزرسانی قیمت‌ها از اکسل api.ir</h2>
+
+        <div style="margin-bottom:12px;">
+            <a href="<?php echo e(route('admin.external-services.template')); ?>" class="btn btn-secondary">دانلود قالب اکسل (با قیمت‌های فعلی)</a>
+        </div>
+
         <form action="<?php echo e(route('admin.external-services.import')); ?>" method="POST" enctype="multipart/form-data"
               style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
             <?php echo csrf_field(); ?>
@@ -70,7 +75,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
         <p style="font-size:14px; color:#6b7280; margin-top:8px;">
-           فقط سرویس‌های جدید که توی لیست ما نیستن به‌صورت غیرفعال اضافه می‌شن 
+           فقط سرویس‌های جدید که توی لیست ما نیستن به‌صورت غیرفعال اضافه می‌شن
         </p>
     </div>
 
@@ -135,4 +140,5 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\projects\garnetSaaS\resources\views/admin/external-services/index.blade.php ENDPATH**/ ?>
