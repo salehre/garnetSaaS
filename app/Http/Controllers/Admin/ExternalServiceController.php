@@ -91,8 +91,14 @@ class ExternalServiceController extends Controller
     public function importPrices(Request $request): RedirectResponse
     {
         $request->validate([
-            'file' => ['required', 'file', 'mimes:xlsx,xls'],
+            'file' => ['required', 'file'],
         ]);
+
+        $extension = strtolower((string) $request->file('file')->getClientOriginalExtension());
+
+        if (!in_array($extension, ['xlsx', 'xls'], true)) {
+            return back()->withErrors(['file' => 'فقط فایل xlsx یا xls مجازه.']);
+        }
 
         $spreadsheet = IOFactory::load($request->file('file')->getRealPath());
         $rows = $spreadsheet->getActiveSheet()->toArray(null, true, true, false);
