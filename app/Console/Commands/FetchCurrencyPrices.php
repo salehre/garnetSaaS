@@ -33,14 +33,24 @@ class FetchCurrencyPrices extends Command
 
         unset($payload['TimeRead']);
 
-                $storedCount = 0;
+        $storedCount = 0;
+        $skippedCodes = [];
 
-                foreach ($payload as $code => $price) {
-                    if (!is_numeric($price)) {
-                            continue;
+        foreach ($payload as $code => $price) {
+            // Non-numeric values are not prices at all.
+            if (!is_numeric($price)) {
+                continue;
             }
 
             $price = (float) $price;
+
+            // The provider occasionally glitches and returns 0 (or a negative
+            // value) for a moment. Such readings are never recorded.
+            if ($price <= 0) {
+                $skippedCodes[] = $code;
+                continue;
+            }
+
             $storedCount++;
 
             DB::transaction(function () use ($code, $price, $fetchedAt) {
@@ -74,6 +84,15 @@ class FetchCurrencyPrices extends Command
                 $stat->avg = ($stat->min + $stat->max) / 2;
                 $stat->save();
             });
+        }
+
+        if ($skippedCodes !== []) {
+            Log::warning('prices:fetch — skipped zero/invalid prices', [
+                'count' => count($skippedCodes),
+                'codes' => $skippedCodes,
+                'fetched_at' => $fetchedAt->toDateTimeString(),
+            ]);
+            $this->warn('Skipped zero/invalid prices: ' . count($skippedCodes) . ' (' . implode(', ', $skippedCodes) . ')');
         }
 
         $this->info('Prices fetched and stored: ' . $storedCount . ' currencies.');
